@@ -1,0 +1,55 @@
+name: flink_cdc
+version: '3.8'
+
+services:
+  postgres-production:
+    image: postgres:16.3-alpine3.20
+    container_name: production_db
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=${PROD_DATABASE}
+      - POSTGRES_USER=${PROD_USERNAME}
+      - POSTGRES_PASSWORD=${PROD_PASSWORD}
+    ports:
+      - "${PROD_EXTERNAL_PORT}:${PROD_INTERNAL_PORT}"
+    command: |
+      postgres 
+      -c wal_level=logical 
+      -c max_wal_senders=10 
+      -c max_replication_slots=10
+    volumes:
+      - prod_data:/var/lib/postgresql/data
+      - ./init-scripts/init-production.sql:/docker-entrypoint-initdb.d/init-production.sql
+      - ./init-scripts/init-replication-slot.sql:/docker-entrypoint-initdb.d/init-replication-slot.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PROD_USERNAME} -d ${PROD_DATABASE} -h ${HOST_MACHINE}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  postgres-analytics:
+    image: postgres:16.3-alpine3.20
+    container_name: analytics_db
+    depends_on:
+      - postgres-production
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=${ANALYTICS_DATABASE}
+      - POSTGRES_USER=${ANALYTICS_USERNAME}
+      - POSTGRES_PASSWORD=${ANALYTICS_PASSWORD}
+    ports:
+      - "${ANALYTICS_EXTERNAL_PORT}:${ANALYTICS_INTERNAL_PORT}"
+    volumes:
+      - bi_data:/var/lib/postgresql/data
+      - ./init-scripts/init-analytics.sql:/docker-entrypoint-initdb.d/init-analytics.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${ANALYTICS_USERNAME} -d ${ANALYTICS_DATABASE} -h ${HOST_MACHINE}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  prod_data:
+  bi_data:
