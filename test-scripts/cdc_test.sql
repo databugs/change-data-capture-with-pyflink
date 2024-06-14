@@ -1,4 +1,12 @@
 --psql
+/*
+\production_db
+Do not run this as a file.
+Run this queries in the production db only.
+After running each query, monitor the analytics db for changes.
+*/
+
+
 --1 Select all records from the 'drivers' table
 SELECT *
 FROM flink.drivers d;
