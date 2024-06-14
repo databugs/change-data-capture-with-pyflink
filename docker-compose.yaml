@@ -50,6 +50,21 @@ services:
       timeout: 10s
       retries: 5
 
+  minio:
+    image: quay.io/minio/minio:RELEASE.2024-06-13T22-53-53Z-cpuv1
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    env_file:
+      - .env
+    environment:
+      MINIO_ROOT_USER: ${S3_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${S3_SECRET_KEY}
+    volumes:
+      - ~/minio/data:/data
+    command: server /data --console-address ":9001"
+
 volumes:
   prod_data:
   bi_data:
