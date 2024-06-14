@@ -1,0 +1,18 @@
+#This is a bad idea.
+PROD_DATABASE=production_db
+PROD_USERNAME=prod_user
+PROD_PASSWORD=prod_password
+PROD_INTERNAL_PORT=5432
+PROD_EXTERNAL_PORT=5441
+ANALYTICS_DATABASE=analytics_db
+ANALYTICS_USERNAME=analytics_user
+ANALYTICS_PASSWORD=analytics_password
+ANALYTICS_INTERNAL_PORT=5432
+ANALYTICS_EXTERNAL_PORT=5442
+HOST_MACHINE=localhost
+ANALYTICS_URL=jdbc:postgresql://localhost:5442/analytics_db
+CHECKPOINTS_DIRECTORY=s3://flink/checkpoints
+SAVEPOINTS_DIRECTORY=s3://flink/savepoints
+S3_ACCESS_KEY=minioadmin
+S3_SECRET_KEY=minioadmin
+S3_ENDPOINT=http://127.0.0.1:9000
