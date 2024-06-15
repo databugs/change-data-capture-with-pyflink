@@ -52,7 +52,7 @@ PyFlink is an Apache Flink Python API that provides a way to implement CDC using
     The above script will create a python virtual environment, activate it, and install all the libraries in `requirements.txt`
 
 7. **Run the python script: flink_cdc.py**
-    Run the following commands to download the needed dependencies. Without them, the job will fail to run.
+    Run the following commands to download the needed dependencies into a `lib` folder. Without them, the job will fail to run.
     ```bash
     chmod +x dependency-downloader.sh
 
