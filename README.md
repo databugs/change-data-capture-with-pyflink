@@ -1,13 +1,13 @@
-# Change Data Capture With Pyflink
+# Change Data Capture With Apache Flink and Python (Pyflink)
 This repository contains a comprehensive implementation of Change Data Capture (CDC) using Apache Flink with Python (PyFlink)
 
 ## What is Change Data Capture?
 The main goal of CDC is to provide a mechanism to track and record changes made to data in a database, such as inserts, updates, and deletes, in real-time or near real-time.
 
-This allows for use cases like data replication, ensuring that the target database remains in sync with the source database.
+This allows for use cases like data replication, ensuring the target database remains in sync with the source database.
 
 ## Change Data Capture with Pyflink 
-PyFlink is an Apache Flink Python API that provides a way to implement CDC using Flink's streaming data processing capabilities and high fualt tolerance.
+PyFlink is an Apache Flink Python API that provides a way to implement CDC using Flink's streaming data processing capabilities and high fault tolerance.
 
 ## Setup
 1. **Clone the repository**
@@ -21,7 +21,7 @@ PyFlink is an Apache Flink Python API that provides a way to implement CDC using
 3. **Create a secrets file**
     This file will hold all the environmental variables needed for the setup to be successful.
 
-    All the vairables can be found in this `./config/app.txt`, but we need it in a `.env` file in the root directory.
+    All the variables can be found in this `./config/app.txt`, but we need it in a `.env` file in the root directory.
 
     ```
     cp ./config/app.txt .env
@@ -42,7 +42,7 @@ PyFlink is an Apache Flink Python API that provides a way to implement CDC using
     ```
     You will see the names of all the three services you have started:
     - production_db: the db you monitor for activities like `insert`, `update`, and `delete`.
-    - analytics_db: the db were those activities will be replicated.
+    - analytics_db: the db where those activities will be replicated.
     - minio: for flink checkpointing
 
 6. **Prepare a Python virtual environment**
@@ -51,7 +51,7 @@ PyFlink is an Apache Flink Python API that provides a way to implement CDC using
     ```
     The above script will create a python virtual environment, activate it, and install all the libraries in `requirements.txt`
 
-7. **Run the python script: flink_cdc.py**
+7. **Run the Python script: flink_cdc.py**
     Run the following commands to download the needed dependencies into a `lib` folder. Without them, the job will fail to run.
     ```bash
     chmod +x dependency-downloader.sh
@@ -65,11 +65,11 @@ PyFlink is an Apache Flink Python API that provides a way to implement CDC using
     python ./pyflink-jobs/flink_cdc.py
     ```
     
-    This will start the flink job. Do not kill the terminal. Flink will continue to run to monitor and stream all changes in the `production_db` to the `analytics_db` in real time.
+    This will start the flink job. Do not kill the terminal. Flink will continue to run to monitor and stream all changes in the `production_db` to the `analytics_db` in real-time.
 
 ## CDC in Practice
-In the `/test-scripts/` folder, there is a file named `cdc_test.sql`. There are a number of queries there with comments on what they do.
+In the `/test-scripts/` folder, there is a file named `cdc_test.sql`. There are a number of queries with comments on what they do.
 
-You are expected to run all those queries one after the other againt the `production_db`.
+You are expected to run all those queries one after the other against the `production_db`.
 
 After each run, query the analytics db to confirm that those changes are also replicated there.
