@@ -20,8 +20,7 @@ class FlinkCDC:
         self.S3_ACCESS_KEY = os.environ.get("S3_ACCESS_KEY")
         self.S3_SECRET_KEY = os.environ.get("S3_SECRET_KEY")
         self.S3_ENDPOINT = os.environ.get("S3_ENDPOINT")
-        
- 
+        self.CURRENT_DIR = os.getcwd()
 
         # Logging setup
         logging.basicConfig(stream=sys.stdout, level=logging.INFO, format="%(message)s")
@@ -41,10 +40,10 @@ class FlinkCDC:
         config.set("state.savepoints.dir", self.SAVEPOINTS_DIRECTORY)
         config.set("execution.checkpointing.mode", self.CHECKPOINT_MODE)
         config.set("execution.checkpointing.dir", self.CHECKPOINTS_DIRECTORY)
-        config.set("pipeline.jars", """
-            file:///path/to/flink-sql-connector-postgres-cdc-3.1.0.jar;
-            file:///path/to/flink-connector-jdbc-3.1.2-1.18.jar;
-            file:///path/to/postgresql-42.7.3.jar
+        config.set("pipeline.jars", f"""
+            file:///{self.CURRENT_DIR}/lib/flink-sql-connector-postgres-cdc-3.1.0.jar;
+            file:///{self.CURRENT_DIR}/lib/flink-connector-jdbc-3.1.2-1.18.jar;
+            file:///{self.CURRENT_DIR}/lib/postgresql-42.7.3.jar
         """)
 
         # Apply table configuration
