@@ -58,14 +58,13 @@ PyFlink is an Apache Flink Python API that provides a way to implement CDC using
 
     ./dependency-downloader.sh
     ```
-
-    The path of all the `.jar` dependencies in `flink_cdc.py` must be updated before you run this file.
+    Run the flink job:
 
     ```
     python ./pyflink-jobs/flink_cdc.py
     ```
     
-    This will start the flink job. Do not kill the terminal. Flink will continue to run to monitor and stream all changes in the `production_db` to the `analytics_db` in real-time.
+    This will start the flink job. Do not kill the terminal. Flink will continue to monitor and stream all changes in the `production_db` to the `analytics_db` in real-time.
 
 ## CDC in Practice
 In the `/test-scripts/` folder, there is a file named `cdc_test.sql`. There are a number of queries with comments on what they do.
